@@ -4,9 +4,13 @@ import router from './router'
 import VueCookie from 'vue-cookie'
 import vuetify from './plugins/vuetify'
 
+import Authentication from '@/views/Authentication'
+
 Vue.use(VueCookie)
 
 Vue.config.productionTip = false
+
+Authentication.checkAuthentication()
 
 new Vue({
   router,
