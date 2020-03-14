@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import * as Auth from '../views/Authentication'
+import * as Auth from '@/views/Authentication'
 
 import Home from '@/views/Home'
-import Authentication from '../views/Authentication/Authentication'
+import Authentication from '@/views/Authentication/Authentication'
 
 Vue.use(VueRouter)
 

@@ -1,11 +1,9 @@
 <template>
-  <div id="app">
-    <v-app>
-      <v-container>
-        <router-view />
-      </v-container>
-    </v-app>
-  </div>
+  <v-app>
+    <v-container>
+      <router-view />
+    </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -19,5 +17,8 @@ export default {
 
 #app {
   background-color: #272727;
+}
+.application {
+  background: none;
 }
 </style>

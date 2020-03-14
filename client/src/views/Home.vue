@@ -1,36 +1,44 @@
 <template>
-  <div>
-    <h3>Hi! this is our App's Home</h3>
-    <p>All users registered in the application are listed here</p>
-    <ul v-if="users != null">
-      <li v-for="user in users" :key="user._id">
-        {{ user.username }}
-      </li>
-    </ul>
-  </div>
+ <main class="l-home-page">
+   <appHeader :username="username" />
+    <div class="l-home">
+      <h4 class="white--text text-xs-center my-0">
+        Neobrain
+      </h4>
+    </div>
+  </main>
 </template>
+
 <script>
-import axios from 'axios'
-import Authentication from '@/views/Authentication'
-const API = `http://${window.location.hostname}:3000`
+import Header from '@/components/Header.vue'
+
+// import axios from 'axios'
+// import Authentication from '@/views/Authentication'
+// const API = `http://${window.location.hostname}:3000`
 
 export default {
   data () {
     return {
-      users: []
+      username: ''
     }
   },
   mounted () {
-    this.getAllUsers()
+    // this.getAllUsers()
   },
   methods: {
-    getAllUsers (context) {
-      axios.get(`${API}/api/users`, {
-        headers: {
-          Authorization: Authentication.getAuthenticationHeader(this)
-        }
-      }).then(({ data }) => (this.users = data))
-    }
+    // getAllUsers (context) {
+    //   axios.get(`${API}/api/users`, {
+    //     headers: {
+    //       Authorization: Authentication.getAuthenticationHeader(this)
+    //     },
+    //     params: {
+    //       id: this.$cookie.get('user_id')
+    //     }
+    //   }).then(({ data }) => (this.users = data))
+    // }
+  },
+  components: {
+    appHeader: Header
   }
 }
 </script>
