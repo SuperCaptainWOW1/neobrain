@@ -1,7 +1,7 @@
 <template>
   <div class="l-auth-container">
     <div class="l-auth">
-      <v-form v-model="validLogin">
+      <v-form>
         <v-text-field label="Username"
                       v-model="credentials.username"
                       prepend-icon="account_box"
@@ -29,7 +29,7 @@
     </div>
 
     <div class="l-signup" v-if="signUpVisible">
-      <v-form v-model="validSignUp">
+      <v-form>
         <v-text-field label="Username"
                       v-model="newUser.username"
                       prepend-icon="account_box"
@@ -55,12 +55,7 @@
       </v-form>
     </div>
 
-    <v-snackbar :timeout="6000"
-                bottom="bottom"
-                color="red lighten-1"
-                v-model="snackbar">
-      {{ message }}
-    </v-snackbar>
+    <h1>{{ errorMessage }}</h1>
   </div>
 </template>
 
@@ -70,9 +65,6 @@ import Authentication from '@/views/Authentication'
 export default {
   data () {
     return {
-      snackbar: false,
-      validLogin: false,
-      validSignUp: false,
       signUpVisible: false,
       loginPasswordVisible: false,
       signUpPasswordVisible: false,
@@ -85,7 +77,8 @@ export default {
         username: '',
         password: ''
       },
-      message: ''
+      error: false,
+      errorMessage: ''
     }
   },
   methods: {

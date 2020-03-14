@@ -9,28 +9,25 @@ export default {
     axios.post(`${API}/api/auth`, credentials)
       .then(({ data }) => {
         context.$cookie.set('token', data.token, '1D')
-        // context.$cookie.set('user_id', data.user_id, '1D')
-        context.validLogin = true
+        context.$cookie.set('user_data', JSON.stringify(data.user), '1D')
 
         this.user.authenticated = true
 
         if (redirect) router.push(redirect)
       })
       .catch(({ response: { data } }) => {
-        context.snackbar = true
-        context.message = data.message
+        context.error = true
+        context.errorMessage = data.message
       })
   },
   signup (context, credentials, redirect) {
     axios.post(`${API}/api/signup`, credentials)
       .then(() => {
-        context.validLogin = true
-
         this.authenticate(context, credentials, redirect)
       })
       .catch(({ response: { data } }) => {
-        context.snackbar = true
-        context.message = data.message
+        context.error = true
+        context.errorMessage = data.message
       })
   },
   signout (context, redirect) {
@@ -41,7 +38,7 @@ export default {
     if (redirect) router.push(redirect)
   },
   checkAuthentication () {
-    const token = document.cookie
+    const token = document.cookie.includes('token')
     this.user.authenticated = !!token
   },
   getAuthenticationHeader (context) {

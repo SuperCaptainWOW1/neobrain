@@ -1,10 +1,16 @@
 <template>
  <main class="l-home-page">
-   <appHeader :username="username" />
+   <appHeader :username="userData.username" />
     <div class="l-home">
       <h4 class="white--text text-xs-center my-0">
         Neobrain
       </h4>
+      <ul>
+        <li v-for="friend of userData.friends" :key="friend._id">
+          {{ friend.username }}
+        </li>
+      </ul>
+      {{ userData }}
     </div>
   </main>
 </template>
@@ -19,23 +25,12 @@ import Header from '@/components/Header.vue'
 export default {
   data () {
     return {
-      username: ''
     }
   },
-  mounted () {
-    // this.getAllUsers()
-  },
-  methods: {
-    // getAllUsers (context) {
-    //   axios.get(`${API}/api/users`, {
-    //     headers: {
-    //       Authorization: Authentication.getAuthenticationHeader(this)
-    //     },
-    //     params: {
-    //       id: this.$cookie.get('user_id')
-    //     }
-    //   }).then(({ data }) => (this.users = data))
-    // }
+  computed: {
+    userData () {
+      return JSON.parse(this.$cookie.get('user_data'))
+    }
   },
   components: {
     appHeader: Header

@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h3>Name</h3>
+    <h3>{{ username }}</h3>
     <v-btn block color="red lighten-1 white--text" @click.native="submitSignout()">Sign out</v-btn>
   </header>
 </template>
@@ -8,13 +8,14 @@
 <script>
 import Authentication from '@/views/Authentication'
 export default {
+  props: {
+    username: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      search: '',
-      status: '',
-      statusItems: [
-        'All', 'Approved', 'Denied', 'Waiting', 'Writing', 'Editing'
-      ]
     }
   },
   methods: {
