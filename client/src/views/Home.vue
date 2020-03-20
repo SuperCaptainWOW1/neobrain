@@ -1,5 +1,5 @@
 <template>
- <main class="l-home-page">
+ <main class="home-page">
    <Header :username="userData.username" />
    <button @click="openChat = true">Open chat</button>
    <Chat v-if="openChat" />
@@ -29,9 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  color: #fff;
-}
 button {
   background-color: #575ed8;
   padding: 5px 20px;

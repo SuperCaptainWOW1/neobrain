@@ -1,7 +1,7 @@
 <template>
   <header>
     <h3>{{ username }}</h3>
-    <v-btn block color="red lighten-1 white--text" @click.native="submitSignout()">Sign out</v-btn>
+    <button @click.prevent="submitSignout()">Sign out</button>
   </header>
 </template>
 
@@ -33,5 +33,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #272727;
 }
 </style>
