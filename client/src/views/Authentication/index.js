@@ -32,7 +32,7 @@ export default {
   },
   signout (context, redirect) {
     context.$cookie.delete('token')
-    context.$cookie.delete('user_id')
+    context.$cookie.delete('user_data')
     this.user.authenticated = false
 
     if (redirect) router.push(redirect)
