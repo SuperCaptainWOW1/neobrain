@@ -1,12 +1,10 @@
 const mongoose = require("mongoose"),
-  UserModel = require("../models/user");
-// BudgetModel = require("../models/budget"),
-// ClientModel = require("../models/client");
+  UserModel = require("../models/user"),
+  ChatRoomModel = require("../models/chatRoom");
 
 const models = {
-  User: mongoose.model("User")
-  // Budget: mongoose.model("Budget"),
-  // Client: mongoose.model("Client")
+  User: mongoose.model("User"),
+  ChatRoom: mongoose.model("ChatRoom")
 };
 
 module.exports = models;

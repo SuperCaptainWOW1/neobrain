@@ -1,9 +1,15 @@
 const http = require("http"),
-  api = require("./config/app"),
+  app = require("./config/app"),
   port = process.env.port || 3000,
-  LOCAL = "0.0.0.0";
+  LOCAL = "0.0.0.0",
+  socketIO = require('socket.io');
+  
+const server = http.createServer(app);
+const io = socketIO(server);
 
-const server = http.createServer(api);
+const socket = io.on('connection', (socket) => {
+  console.log('made socket connection', socket.id);
+});
 
 server.listen(port, LOCAL, err => {
   if (err) {
@@ -11,3 +17,5 @@ server.listen(port, LOCAL, err => {
   }
   console.log(`Server is running on port ${port}`);
 });
+
+module.exports = socket;

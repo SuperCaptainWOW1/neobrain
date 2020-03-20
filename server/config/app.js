@@ -8,7 +8,8 @@ const express = require("express"),
   passportConfig = require("./passport")(passport),
   jwt = require("jsonwebtoken"),
   config = require("./index.js"),
-  database = require("./database")(mongoose, config);
+  database = require("./database")(mongoose, config),
+  socket = require('socket.io');
 
 app.use(express.static("."));
 app.use(express.json());

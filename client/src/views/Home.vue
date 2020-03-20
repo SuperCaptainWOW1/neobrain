@@ -1,30 +1,19 @@
 <template>
  <main class="l-home-page">
-   <appHeader :username="userData.username" />
-    <div class="l-home">
-      <h4 class="white--text text-xs-center my-0">
-        Neobrain
-      </h4>
-      <ul>
-        <li v-for="friend of userData.friends" :key="friend._id">
-          {{ friend.username }}
-        </li>
-      </ul>
-      {{ userData }}
-    </div>
+   <Header :username="userData.username" />
+   <button @click="openChat = true">Open chat</button>
+   <Chat v-if="openChat" />
   </main>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
-
-// import axios from 'axios'
-// import Authentication from '@/views/Authentication'
-// const API = `http://${window.location.hostname}:3000`
+import Chat from '@/components/Chat.vue'
 
 export default {
   data () {
     return {
+      openChat: false
     }
   },
   computed: {
@@ -33,7 +22,8 @@ export default {
     }
   },
   components: {
-    appHeader: Header
+    Header,
+    Chat
   }
 }
 </script>
@@ -41,5 +31,10 @@ export default {
 <style lang="scss" scoped>
 * {
   color: #fff;
+}
+button {
+  background-color: #575ed8;
+  padding: 5px 20px;
+  border-radius: 5px;
 }
 </style>
