@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import * as Auth from '@/views/Authentication'
 
-import Home from '@/views/Home'
+import Chat from '@/views/Chat'
 import Authentication from '@/views/Authentication/Authentication'
 
 Vue.use(VueRouter)
@@ -10,8 +10,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Chat',
+    component: Chat,
     meta: {
       requiredAuth: true
     }

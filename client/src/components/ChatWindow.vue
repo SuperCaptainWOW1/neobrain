@@ -12,7 +12,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+
+// import config from '@/config'
 
 export default {
   name: 'Chat',
@@ -20,11 +22,14 @@ export default {
     messages: []
   }),
   mounted () {
-    axios.post('http://localhost:3000/chatroom')
+    // axios.post(`${config.api}/chat/createroom`)
   },
   sockets: {
     connect () {
       console.log('Socket connected')
+    },
+    roomChanged () {
+      this.messages = []
     },
     userJoinedRoom (user) {
       console.log(user)
@@ -33,7 +38,7 @@ export default {
   },
   methods: {
     sendChatMessage () {
-      // axios.post('http://localhost:3000/chatroom', { username: JSON.parse(this.$cookie.get('user_data')).username })
+      // axios.post(`${config.api}/chat/chatroom`, { username: JSON.parse(this.$cookie.get('user_data')).username })
     }
   }
 }
