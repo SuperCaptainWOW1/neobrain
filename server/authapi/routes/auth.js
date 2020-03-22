@@ -1,4 +1,4 @@
-const models = require("../setup");
+const models = require("../../setup");
 
 module.exports = app => {
   const api = app.api.auth;

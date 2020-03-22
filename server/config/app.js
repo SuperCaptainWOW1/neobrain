@@ -18,8 +18,8 @@ app.use(cors());
 app.use(passport.initialize());
 
 app.set("secret", config.secret);
-consign({ cwd: "app" })
-  .include("setup")
+consign({ cwd: "authapi" })
+  .include("../setup")
   .then("api")
   .then("routes")
   .into(app);
