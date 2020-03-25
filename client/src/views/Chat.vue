@@ -6,7 +6,7 @@
     <button @click="addFriend">Add friend</button>
 
     <ChatFriendsList :friends="userData.friends" />
-    <ChatWindow v-if="openChat"/>
+    <ChatWindow />
   </main>
 </template>
 
@@ -22,21 +22,31 @@ import config from '@/config'
 export default {
   data () {
     return {
-      openChat: true,
-      newFriend: ''
+      newFriend: '',
+      userData: {
+        username: '',
+        friends: []
+      }
     }
+  },
+  created () {
+    this.updateUserData()
   },
   methods: {
     addFriend () {
-      axios.post(`${config.api}/chat/addfriend`, {
-        me: this.userData.username,
-        newFriend: this.newFriend
-      })
-    }
-  },
-  computed: {
-    userData () {
-      return JSON.parse(this.$cookie.get('user_data'))
+      if (this.newFriend.trim()) {
+        axios.post(`${config.api}/chat/addfriend`, {
+          me: this.userData.username,
+          newFriend: this.newFriend.trim()
+        })
+      }
+    },
+    async updateUserData () {
+      const userId = this.$cookie.get('user_id')
+
+      const response = await axios.get(`${config.api}/api/user?id=${userId}`)
+
+      this.userData = response.data
     }
   },
   components: {

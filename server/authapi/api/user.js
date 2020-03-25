@@ -23,4 +23,23 @@ api.signup = User => (req, res) => {
   }
 };
 
+api.getUserData = User => (req, res) => {
+  const userId = req.query.id;
+  
+  User.findById(userId, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      res.status(500).json({
+        success: false,
+        message: "Can not find a user to send user data"
+      })
+    } else {
+      res.status(200).json({
+        username: user.username,
+        friends: user.friends
+      })
+    }
+  })
+}
+
 module.exports = api;

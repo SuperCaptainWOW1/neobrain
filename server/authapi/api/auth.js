@@ -16,11 +16,7 @@ api.login = User => (req, res) => {
       user.comparePassword(req.body.password, (err, matches) => {
         if (matches && !err) {
           const token = jwt.sign({ user }, config.secret);
-          res.json({ success: true, message: "Token granted", token, user: {
-            user_id: user._id,
-            username: user.username,
-            friends: user.friends
-          } });
+          res.json({ success: true, message: "Token granted", token, user_id: user._id });
         } else {
           res.status(401).send({
             success: false,

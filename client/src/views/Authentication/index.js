@@ -9,7 +9,7 @@ export default {
     axios.post(`${API}/api/auth`, credentials)
       .then(({ data }) => {
         context.$cookie.set('token', data.token, '1D')
-        context.$cookie.set('user_data', JSON.stringify(data.user), '1D')
+        context.$cookie.set('user_id', data.user_id, '1D')
 
         this.user.authenticated = true
 
@@ -32,7 +32,7 @@ export default {
   },
   signout (context, redirect) {
     context.$cookie.delete('token')
-    context.$cookie.delete('user_data')
+    context.$cookie.delete('user_id')
     this.user.authenticated = false
 
     if (redirect) router.push(redirect)

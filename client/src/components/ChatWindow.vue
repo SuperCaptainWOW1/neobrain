@@ -5,8 +5,8 @@
         <p v-for="m in messages" :key="m.index">{{ m.content }}</p>
       </div>
     </div>
-    <input type="text" class="handle" placeholder="Handle">
-    <input type="text" class="message" placeholder="Message">
+    <input type="text" v-model="handle" placeholder="Handle">
+    <input type="text" v-model="message" placeholder="Message">
     <button @click="sendChatMessage">Send</button>
   </div>
 </template>
@@ -19,11 +19,10 @@
 export default {
   name: 'Chat',
   data: () => ({
-    messages: []
+    messages: [],
+    handle: '',
+    message: ''
   }),
-  mounted () {
-    // axios.post(`${config.api}/chat/createroom`)
-  },
   sockets: {
     connect () {
       console.log('Socket connected')
@@ -38,7 +37,7 @@ export default {
   },
   methods: {
     sendChatMessage () {
-      // axios.post(`${config.api}/chat/chatroom`, { username: JSON.parse(this.$cookie.get('user_data')).username })
+      this.$socket.emit('chat_message', this.message)
     }
   }
 }

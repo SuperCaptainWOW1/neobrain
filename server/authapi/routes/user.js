@@ -5,4 +5,5 @@ const passport = require("passport"),
 module.exports = app => {
   const api = app.api.user;
   app.post("/api/signup", api.signup(models.User));
+  app.get("/api/user", api.getUserData(models.User));
 };

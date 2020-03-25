@@ -15,6 +15,10 @@ export default {
       required: true
     }
   },
-  data: () => ({})
+  sockets: {
+    friendAdded (friend) {
+      this.friends.push(friend)
+    }
+  }
 }
 </script>
