@@ -6,10 +6,6 @@ const messageSchema = mongoose.Schema({
     default: Date.now(),
     required: true
   },
-  dateModified: {
-    type: Date,
-    default: Date.now()
-  },
   author: {
     type: String,
     required: true

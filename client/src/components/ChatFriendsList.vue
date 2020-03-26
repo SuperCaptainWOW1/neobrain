@@ -1,6 +1,6 @@
 <template>
   <div class="chat-friends">
-    <div class="friend-card" v-for="f of friends" :key="f.username">
+    <div class="friend-card" @click="emitGetRoomData(f.room_id, f.username)" v-for="f of friends" :key="f.username">
       {{ f.username }}
     </div>
   </div>
@@ -15,9 +15,12 @@ export default {
       required: true
     }
   },
-  sockets: {
-    friendAdded (friend) {
-      this.friends.push(friend)
+  methods: {
+    emitGetRoomData (roomId, friendUsername) {
+      this.$emit('getRoomData', {
+        roomId,
+        friendUsername
+      })
     }
   }
 }

@@ -73,10 +73,10 @@ api.addFriend = (ChatRoom, User, socket, io) => (req, res) => {
                   message: "Error finding current user."
                 });
               } else {
+                console.log(room._id)
                 socket.join(room._id, () => {
                   io.emit('friendAdded', { username: friendUsername, room_id: room._id });
 
-                  io.emit('roomChanged');
                   io.emit('userJoinedRoom', friendUsername);
                 })
               }
@@ -106,5 +106,41 @@ api.addFriend = (ChatRoom, User, socket, io) => (req, res) => {
   
 }
 
+api.getChatRoom = (ChatRoom, User) => (req, res) => {
+  const roomId = req.query.id;
+
+  ChatRoom.findById(roomId, (err, room) => {
+    if (err) throw err;
+    if (!room) {
+      res.status(500).json({
+        success: false,
+        message: "Can not find a chat room"
+      })
+    } else {
+      res.status(200).json(room)
+    }
+  })
+}
+
+api.sendChatMessage = (ChatRoom, socket, io) => data => {
+  console.log(data)
+  // Save message to database
+  ChatRoom.updateOne({ _id: data.roomId },{ $push: { messages: { author: data.author, content: data.content } }}, (err, room) => {
+    if (err) throw err;
+    if (!room) {
+      res.status(500).json({
+        success: false,
+        message: "Can not find a chat room"
+      })
+    } else {
+      socket.join(data.roomId, () => {
+        io.to(data.roomId).emit("onMessageRecieved", {
+          author: data.author,
+          content: data.content
+        })
+      })
+    }
+  })
+}
 
 module.exports = api;

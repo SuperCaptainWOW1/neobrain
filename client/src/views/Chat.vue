@@ -5,8 +5,13 @@
     <input v-model="newFriend" type="text">
     <button @click="addFriend">Add friend</button>
 
-    <ChatFriendsList :friends="userData.friends" />
-    <ChatWindow />
+    <ChatFriendsList @getRoomData="data => getRoomData(data.roomId, data.friendUsername)" :friends="userData.friends" />
+    <ChatWindow
+      :roomId="activeRoom._id"
+      :senderUsername="userData.username"
+      :friendUsername="activeRoom.friendUsername"
+      :messages="activeRoom.messages"
+    />
   </main>
 </template>
 
@@ -26,7 +31,17 @@ export default {
       userData: {
         username: '',
         friends: []
+      },
+      activeRoom: {
+        friendUsername: '',
+        messages: []
       }
+    }
+  },
+  sockets: {
+    friendAdded (friend) {
+      this.updateUserData()
+      this.getRoomData(friend.room_id, friend.username)
     }
   },
   created () {
@@ -47,6 +62,14 @@ export default {
       const response = await axios.get(`${config.api}/api/user?id=${userId}`)
 
       this.userData = response.data
+    },
+    async getRoomData (roomId, friendUsername) {
+      const response = await axios.get(`${config.api}/chat/room?id=${roomId}`)
+
+      this.activeRoom = {
+        ...response.data,
+        friendUsername
+      }
     }
   },
   components: {

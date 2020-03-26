@@ -1,11 +1,13 @@
 <template>
   <div class="chat">
     <div class="chat-window">
+      <div class="friendUsername"> {{ friendUsername }} </div>
       <div class="output">
-        <p v-for="m in messages" :key="m.index">{{ m.content }}</p>
+        <p v-for="m in messages" :key="m.index">
+          {{ m.author }}: {{ m.content }}
+        </p>
       </div>
     </div>
-    <input type="text" v-model="handle" placeholder="Handle">
     <input type="text" v-model="message" placeholder="Message">
     <button @click="sendChatMessage">Send</button>
   </div>
@@ -18,26 +20,44 @@
 
 export default {
   name: 'Chat',
+  props: {
+    roomId: {
+      type: String
+    },
+    senderUsername: {
+      type: String,
+      required: true
+    },
+    friendUsername: {
+      type: String
+    },
+    messages: {
+      type: Array
+    }
+  },
   data: () => ({
-    messages: [],
-    handle: '',
     message: ''
   }),
   sockets: {
     connect () {
       console.log('Socket connected')
     },
-    roomChanged () {
-      this.messages = []
-    },
     userJoinedRoom (user) {
-      console.log(user)
       this.messages.push({ content: `${user} joined this chanel` })
+    },
+    onMessageRecieved (msg) {
+      this.messages.push(msg)
     }
   },
   methods: {
     sendChatMessage () {
-      this.$socket.emit('chat_message', this.message)
+      if (this.friendUsername) {
+        this.$socket.emit('chat_message', {
+          roomId: this.roomId,
+          author: this.senderUsername,
+          content: this.message
+        })
+      }
     }
   }
 }
@@ -112,6 +132,11 @@ button{
     padding: 12px 0;
     width: 100%;
     border-radius: 0 0 2px 2px;
+}
+
+.friendUsername {
+  text-align: center;
+  border-bottom: 1px solid #505050;
 }
 
 </style>
