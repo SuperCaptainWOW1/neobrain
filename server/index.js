@@ -14,6 +14,12 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('made socket connection', socket.id);
 
+  socket.send('hey');
+
+  // io.of()
+
+  // socket.join(socket.id)
+
   // @TODO: Remake it into socket version with emit and on 
   app.post('/chat/addfriend', api.addFriend(models.ChatRoom, models.User, socket, io));
   app.get('/chat/room', api.getChatRoom(models.ChatRoom));

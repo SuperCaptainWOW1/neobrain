@@ -4,7 +4,7 @@
       <div class="friendUsername"> {{ friendUsername }} </div>
       <div class="output">
         <p v-for="m in messages" :key="m.index">
-          {{ m.author }}: {{ m.content }}
+          {{ m.author }}: {{ m.content }} - {{ m.dateCreated && m.dateCreated | date }}
         </p>
       </div>
     </div>

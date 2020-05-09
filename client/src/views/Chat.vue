@@ -7,6 +7,7 @@
 
     <ChatFriendsList @getRoomData="data => getRoomData(data.roomId, data.friendUsername)" :friends="userData.friends" />
     <ChatWindow
+      v-if="chatActive"
       :roomId="activeRoom._id"
       :senderUsername="userData.username"
       :friendUsername="activeRoom.friendUsername"
@@ -17,6 +18,8 @@
 
 <script>
 import axios from 'axios'
+import VueSocketIO from 'vue-socket.io'
+import SocketIO from 'socket.io-client'
 
 import Header from '@/components/Header'
 import ChatFriendsList from '@/components/ChatFriendsList'
@@ -35,17 +38,37 @@ export default {
       activeRoom: {
         friendUsername: '',
         messages: []
-      }
+      },
+      chatActive: false
     }
   },
   sockets: {
     friendAdded (friend) {
+      console.log(friend.room_id, friend.username)
       this.updateUserData()
       this.getRoomData(friend.room_id, friend.username)
+    },
+    message (d) {
+      console.log(d)
     }
   },
-  created () {
-    this.updateUserData()
+  async mounted () {
+    await this.updateUserData()
+    console.log(this.userData.username)
+
+    // eslint-disable-next-line no-new
+    new VueSocketIO({
+      debug: true,
+      connection: SocketIO.connect('http://localhost:3000'),
+      options: { path: '' }
+    })
+
+    const roomId = this.$route.query.room_id
+    const friend = this.$route.query.friend
+
+    if (roomId && friend) {
+      this.getRoomData(roomId, friend)
+    }
   },
   methods: {
     addFriend () {
@@ -64,12 +87,16 @@ export default {
       this.userData = response.data
     },
     async getRoomData (roomId, friendUsername) {
-      const response = await axios.get(`${config.api}/chat/room?id=${roomId}`)
+      this.$router.push(`/?room_id=${roomId}&friend=${friendUsername}`).catch(err => console.log('Navigation Duplicated', !!err))
+
+      const response = await axios.get(`${config.api}/chat/room?id=${this.$route.query.room_id}`)
 
       this.activeRoom = {
         ...response.data,
         friendUsername
       }
+
+      this.chatActive = true
     }
   },
   components: {
